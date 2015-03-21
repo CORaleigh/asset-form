@@ -66,6 +66,7 @@ angular
             }
           });
           $scope.fields = $scope.tableData.fields;
+          $scope.clearForm(false);
         };
         $scope.dateInit = function (e) {
           $('.date').datepicker({clearBtn: true});
