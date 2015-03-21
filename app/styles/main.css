@@ -1,0 +1,16 @@
+.alert {
+  margin-top: 1em;
+}
+
+select {
+  margin-bottom: 1em;
+}
+/*form specific styling*/
+.navbar {
+  background-color: #5cb85c;
+  border-radius: 0;
+}
+
+.navbar a {
+  color: white !important;
+}
