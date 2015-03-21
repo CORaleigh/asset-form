@@ -42,7 +42,11 @@ angular
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
         deferred.resolve(data.token);
-      });
+      }).
+	  error(function(data, status, headers, config) {
+	    // called asynchronously if an error occurs
+	    // or server returns response with an error status.
+	  });
       return deferred.promise;
     };
   }]);
