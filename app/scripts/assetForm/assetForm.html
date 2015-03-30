@@ -28,7 +28,7 @@
 				<input name="field" class="form-control" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span></input>
 			</div>
 			<!--free form input-->
-			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION'" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" ng-blur="inputBlur(f)" class="form-control"></input>
+			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION'" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" ng-blur="inputBlur(f)" class="form-control" capitalize></input>
 	        <!--help blocks used for validation-->
 	        <!--max length message-->
 	        <span id="helpBlock" class="help-block" ng-if="fieldForm.field.$error.maxlength">Only accepts {{f.length}} characters</span>

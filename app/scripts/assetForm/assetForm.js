@@ -1,11 +1,11 @@
 angular
   .module('assetFormApp')
-  .directive('assetForm', ['assets', function (assets) {
+  .directive('assetForm', ['assets', 'login', function (assets, login) {
     return {
       require: '^?loginForm',
       restrict: 'E',
       templateUrl: 'scripts/assetForm/assetForm.html',
-      controller: function ($scope, $timeout, $window) {
+      controller: function ($scope, $timeout, $window, login) {
         $scope.siteSelected = function () {
           var f = $scope.fields.filter(function (f) {
             return f.name === 'SITE';
@@ -62,8 +62,12 @@ angular
           console.log($scope.fields);
           angular.forEach($scope.tableData.fields, function (f) {
             if (type.domains[f.name]) {
-              f.domain = type.domains[f.name];
+              if (type.domains[f.name].codedValues) {
+                f.domain = type.domains[f.name];
+              }
             }
+            console.log(f.name);
+            console.log(f.nullable);
           });
           $scope.fields = $scope.tableData.fields;
           $scope.clearForm(false);
