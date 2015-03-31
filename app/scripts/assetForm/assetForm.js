@@ -36,7 +36,7 @@ angular
               var bldgs = [];
               angular.forEach(data.features, function (f) {
                 if (siteNames.indexOf(f.attributes.SITE) === -1) {
-                  $scope.sites.push({name: f.attributes.SITE, buildings:[{name: f.attributes.LOCATION, id: f.attributes.FACILITYID, address: f.attributes.LEGACYID}]})
+                  $scope.sites.push({name: f.attributes.SITE, id: parseInt(f.attributes.FACILITYID), buildings:[{name: f.attributes.LOCATION, id: parseInt(f.attributes.FACILITYID), address: f.attributes.LEGACYID}]})
                   siteNames.push(f.attributes.SITE);
                 } else {
                   var site = $scope.sites.filter(function (s) {
@@ -44,7 +44,7 @@ angular
                   });
                   if (site.length > 0) {
                     site = site[0];
-                    site.buildings.push({name: f.attributes.LOCATION, id: f.attributes.FACILITYID, address: f.attributes.LEGACYID});
+                    site.buildings.push({name: f.attributes.LOCATION, id: parseInt(f.attributes.FACILITYID), address: f.attributes.LEGACYID});
                   }
                 }
               });
@@ -52,12 +52,26 @@ angular
           }
         });
         $scope.tableSelected = function (id) {
-            assets.getTypes($scope.token, id).then(function (data) {
-              $scope.tableData = data;
-              $scope.fields = [];
-              $scope.types = data.types;
-            });
+          getTypes($scope.token, id);
         };
+
+        function getTypes (token, id) {
+             assets.getTypes($scope.token, id).then(function (data) {
+              if (data.error) {
+                if (data.error.code === 498) {
+                  login.login($scope.user, $scope.password).then(function (token) {
+                    $scope.token = token;
+                    getTypes(token, id);
+                  });
+                }
+              } else {
+                $scope.tableData = data;
+                $scope.fields = [];
+                $scope.types = data.types;                
+              }
+            });         
+        }
+
         $scope.typeSelected = function (type) {
           console.log($scope.fields);
           angular.forEach($scope.tableData.fields, function (f) {
@@ -80,9 +94,21 @@ angular
 
             $scope.facilityid = field.value;
             $scope.oid = null;
-            assets.checkAssetExists($scope.token, field.value, $scope.table.id).then(function (data) {
+            checkAssetExists($scope.token, field, $scope.table.id);
+          }
+        }
+
+        function checkAssetExists (token, field, id) {
+            assets.checkAssetExists(token, field.value, id).then(function (data) {
               console.log(data);
-              if (data.features.length > 0) {
+              if (data.error) {
+                if (data.error.code === 498) {
+                  login.login($scope.user, $scope.password).then(function (token) {
+                    $scope.token = token;
+                    checkAssetExists($scope.token, field, $scope.table.id);
+                  });
+                }
+              } else if (data.features.length > 0) {
                 $scope.oid = data.features[0].attributes.OBJECTID;
                 setFieldValues(data.features[0].attributes);
                 showMessage("warning", "Asset with this tag has already been created, changes will update the existing asset")
@@ -90,8 +116,8 @@ angular
                 
               }
             });
-          }
-        }
+        };
+
         function setFieldValues (attributes) {
           var site = $scope.sites.filter(function (s) {
             return s.name === attributes['SITE'];
@@ -155,7 +181,7 @@ angular
         }
         $scope.submitForm = function () {
           var feature = {attributes: {}};
-          var processing = true;
+          $scope.processing = true;
           angular.forEach($scope.fields, function (f) {
               switch (f.name) {
                 case 'ASSET_TYPE_SUBTYPE':
@@ -195,23 +221,38 @@ angular
             feature.attributes.OBJECTID = $scope.oid;
           }
           $scope.feature = feature;
-          assets.submitAsset($scope.token, feature, $scope.table.id, $scope.oid).then(function (data) {
-            processing = false;
+          submitAsset($scope.token, feature, $scope.table.id, $scope.oid);
+        };
+
+        function submitAsset (token, feature, id, oid) {
+          $scope.processing = true;
+          assets.submitAsset(token, feature, id, oid).then(function (data) {
+            $scope.processing = false;
             console.log(data);
             var success = false;
-            if (data.addResults) {
-              success = data.addResults[0].success;
-            } else if (data.updateResults) {
-              success = data.updateResults[0].success;
-            }
-            if (success) {
-              showMessage("success", "Asset successfully " + ((data.updateResults) ? 'updated': 'created'));
-            } else {
-              showMessage("danger", "Error submitting assets, please try again");
-            }
-            
-            $scope.oid = null;
-            $scope.clearForm(false);
+              if (data.error) {
+                if (data.error.code === 498) {
+                  login.login($scope.user, $scope.password).then(function (token) {
+                    $scope.token = token;
+                    submitAsset(token, feature, id, oid);
+                  });
+                }
+              } else {
+                 if (data.addResults) {
+                  success = data.addResults[0].success;
+                } else if (data.updateResults) {
+                  success = data.updateResults[0].success;
+                }
+                if (success) {
+                  showMessage("success", "Asset successfully " + ((data.updateResults) ? 'updated': 'created'));
+                } else {
+                  showMessage("danger", "Error submitting assets, please try again");
+                }
+                
+                $scope.oid = null;
+                $scope.clearForm(false);               
+              }
+
           });
         };
       },
