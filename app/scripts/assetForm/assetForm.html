@@ -13,10 +13,10 @@
 	<div ng-repeat="f in fields" class="form-group" ng-if="(!f.domain || f.domain.name.indexOf('NA_Domain') == -1) && hiddenFields.indexOf(f.name) == -1" ng-class="{'has-error': fieldForm.$invalid}">
 		<ng-form name="fieldForm">
 			<label class="control-label">{{f.alias}}</label>
-			<select name="field" ng-if="f.name === 'SITE'" ng-model="f.value" ng-options="site as site.name for site in sites track by site.id | orderBy: 'name'" class="form-control" ng-change="siteSelected()" required>
+			<select name="field" ng-if="f.name === 'SITE'" ng-model="f.value" ng-options="site as site.name for site in sites track by site.id | orderBy: 'name'" class="form-control" ng-change="siteSelected();building = undefined;" required>
 				<option value="">Select a site...</option>
 			</select>
-			<select name="field" ng-if="f.name === 'LOCATION'" ng-model="f.value" ng-options="building as building.name for building in buildings track by building.id | orderBy: 'name'" class="form-control" ng-disabled="!buildings || buildings.length == 0" ng-change="bldgSelected()" required>
+			<select  name="field" ng-if="f.name === 'LOCATION'" ng-model="f.value" ng-options="building as building.name for building in buildings track by building.id | orderBy: 'name'" class="form-control" ng-disabled="!buildings || buildings.length == 0" ng-change="bldgSelected()" required>
 				<option value="">Select a building...</option>
 			</select>
 			<!--domains-->

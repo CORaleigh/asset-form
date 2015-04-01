@@ -7,13 +7,18 @@ angular
       templateUrl: 'scripts/assetForm/assetForm.html',
       controller: function ($scope, $timeout, $window, login) {
         $scope.siteSelected = function () {
-          var f = $scope.fields.filter(function (f) {
-            return f.name === 'SITE';
+          var flds = $scope.fields.filter(function (f) {
+            return f.name === 'SITE' || f.name === 'LOCATION';
           });
-          if (f.length > 0) {
-            f = f[0];
-            $scope.site = f.value;
-            $scope.buildings = f.value.buildings;
+          if (flds.length > 0) {
+            angular.forEach(flds, function (f) {
+              if (f.name === 'SITE') {
+                $scope.site = f.value;
+                $scope.buildings = f.value.buildings;                
+              } else if (f.name === 'LOCATION') {
+                f.value = undefined;
+              }
+            });
           }
         };
         $scope.bldgSelected = function () {
