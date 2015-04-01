@@ -18,7 +18,7 @@ angular
         };
       },
       link: function (scope, element, attrs) {
-        scope.modal = $('.modal', element[0])
+        scope.modal = $('#loginModal', element[0])
         scope.modal.modal({keyboard: false, backdrop: 'static'});
       }
     }

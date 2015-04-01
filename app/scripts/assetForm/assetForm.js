@@ -273,6 +273,7 @@ angular
     return service;
     function getTables(token){
       var deferred = $q.defer();
+      $('#fakeModal').modal('show');
       $http({
         method: 'POST',
         url: baseUrl,
@@ -283,12 +284,14 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
+        $('#fakeModal').modal('hide');
         deferred.resolve(data);
       });
       return deferred.promise;
     };
     function getTypes(token, id){
       var deferred = $q.defer();
+      $('#fakeModal').modal('show');
       $http({
         method: 'POST',
         url: baseUrl+'/'+id,
@@ -299,12 +302,14 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
+        $('#fakeModal').modal('hide');
         deferred.resolve(data);
       });
       return deferred.promise;
     };
     function getSites (token) {
        var deferred = $q.defer();
+       $('#fakeModal').modal('show');
       $http({
         method: 'POST',
         url: baseUrl+'/0/query',
@@ -318,12 +323,14 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
+        $('#fakeModal').modal('hide');
         deferred.resolve(data);
       });
       return deferred.promise;
     };
     function checkAssetExists (token, id, table) {
        var deferred = $q.defer();
+       $('#fakeModal').modal('show');
       $http({
         method: 'POST',
         url: baseUrl+'/'+ table +'/query',
@@ -337,12 +344,14 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
+        $('#fakeModal').modal('hide');
         deferred.resolve(data);
       });
       return deferred.promise;
     };
     function submitAsset (token, feature, table, oid) {
        var deferred = $q.defer();
+       $('#fakeModal').modal('show');
       $http({
         method: 'POST',
         url: baseUrl+'/'+ table +'/' + ((oid) ? 'updateFeatures' : 'addFeatures'),
@@ -353,6 +362,7 @@ angular
             f: 'json'
           }
         }).success(function (data) {
+          $('#fakeModal').modal('hide');
         deferred.resolve(data);
       });
       return deferred.promise;
