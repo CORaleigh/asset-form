@@ -284,8 +284,9 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
-        $('#fakeModal').modal('hide');
         deferred.resolve(data);
+      }).finally(function () {
+        $('#fakeModal').modal('hide');
       });
       return deferred.promise;
     };
@@ -302,8 +303,9 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
-        $('#fakeModal').modal('hide');
         deferred.resolve(data);
+      }).finally(function () {
+        $('#fakeModal').modal('hide');
       });
       return deferred.promise;
     };
@@ -323,8 +325,9 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
-        $('#fakeModal').modal('hide');
         deferred.resolve(data);
+      }).finally(function () {
+        $('#fakeModal').modal('hide');
       });
       return deferred.promise;
     };
@@ -344,8 +347,9 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
-        $('#fakeModal').modal('hide');
         deferred.resolve(data);
+      }).finally(function () {
+        $('#fakeModal').modal('hide');
       });
       return deferred.promise;
     };
@@ -362,9 +366,10 @@ angular
             f: 'json'
           }
         }).success(function (data) {
-          $('#fakeModal').modal('hide');
         deferred.resolve(data);
+      }).finally(function () {
+        $('#fakeModal').modal('hide');
       });
       return deferred.promise;
     }
-  }]);;
+  }]);
