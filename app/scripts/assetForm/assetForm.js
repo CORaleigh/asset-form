@@ -6,6 +6,26 @@ angular
       restrict: 'E',
       templateUrl: 'scripts/assetForm/assetForm.html',
       controller: function ($scope, $timeout, $window, login) {
+        $scope.toggleGrayout = function (show) {
+          $('#fakeModal').modal(((show) ? 'show' : 'hide'));
+          console.log(((show) ? 'show' : 'hide'));
+        }
+        var getTypes = function (token, id) {
+             assets.getTypes($scope.token, id).then(function (data) {
+              if (data.error) {
+                if (data.error.code === 498) {
+                  login.login($scope.user, $scope.password).then(function (token) {
+                    $scope.token = token;
+                    getTypes(token, id);
+                  });
+                }
+              } else {
+                $scope.tableData = data;
+                $scope.fields = [];
+                $scope.types = data.types;                
+              }
+            });         
+        }        
         $scope.siteSelected = function () {
           var flds = $scope.fields.filter(function (f) {
             return f.name === 'SITE' || f.name === 'LOCATION';
@@ -30,11 +50,8 @@ angular
             $scope.building = f.value;
           }
         };
-        $scope.$watch('token', function (token) {
-          if (token) {
-            assets.getTables(token).then(function (data) {
-              $scope.tables = data.tables;
-            });
+
+        var getSites = function (token) {
             assets.getSites(token).then(function (data) {
               $scope.sites = [];
               var siteNames = [];
@@ -54,28 +71,24 @@ angular
                 }
               });
             });
+        };
+
+        $scope.$watch('token', function (token) {
+          if (token) {
+            $scope.toggleGrayout(true);
+            assets.getTables(token).then(function (data) {
+              $scope.toggleGrayout(false);
+              $scope.tables = data.tables;
+              getSites(token);
+            });
+            
           }
         });
         $scope.tableSelected = function (id) {
           getTypes($scope.token, id);
         };
 
-        function getTypes (token, id) {
-             assets.getTypes($scope.token, id).then(function (data) {
-              if (data.error) {
-                if (data.error.code === 498) {
-                  login.login($scope.user, $scope.password).then(function (token) {
-                    $scope.token = token;
-                    getTypes(token, id);
-                  });
-                }
-              } else {
-                $scope.tableData = data;
-                $scope.fields = [];
-                $scope.types = data.types;                
-              }
-            });         
-        }
+
 
         $scope.typeSelected = function (type) {
           console.log($scope.fields);
@@ -103,8 +116,10 @@ angular
           }
         }
 
-        function checkAssetExists (token, field, id) {
+        var checkAssetExists = function (token, field, id) {
+            $scope.toggleGrayout(true);
             assets.checkAssetExists(token, field.value, id).then(function (data) {
+              $scope.toggleGrayout(false);
               console.log(data);
               if (data.error) {
                 if (data.error.code === 498) {
@@ -118,12 +133,14 @@ angular
                 setFieldValues(data.features[0].attributes);
                 showMessage("warning", "Asset with this tag has already been created, changes will update the existing asset")
               } else {
-                
+                $scope.alert = null;
               }
+            }, function (status, data) {
+              $scope.toggleGrayout(false);
             });
         };
 
-        function setFieldValues (attributes) {
+        var setFieldValues = function (attributes) {
           var site = $scope.sites.filter(function (s) {
             return s.name === attributes['SITE'];
           });
@@ -229,10 +246,12 @@ angular
           submitAsset($scope.token, feature, $scope.table.id, $scope.oid);
         };
 
-        function submitAsset (token, feature, id, oid) {
+        var submitAsset = function(token, feature, id, oid) {
           $scope.processing = true;
+          $scope.toggleGrayout(true);
           assets.submitAsset(token, feature, id, oid).then(function (data) {
             $scope.processing = false;
+            $scope.toggleGrayout(false);
             console.log(data);
             var success = false;
               if (data.error) {
@@ -257,7 +276,6 @@ angular
                 $scope.oid = null;
                 $scope.clearForm(false);               
               }
-
           });
         };
       },
@@ -273,7 +291,6 @@ angular
     return service;
     function getTables(token){
       var deferred = $q.defer();
-      $('#fakeModal').modal('show');
       $http({
         method: 'POST',
         url: baseUrl,
@@ -283,16 +300,12 @@ angular
             f: 'json'
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).success(function (data) {
-        deferred.resolve(data);
-      }).finally(function () {
-        $('#fakeModal').modal('hide');
-      });
+      }).success(deferred.resolve)
+      .error(deferred.resolve);
       return deferred.promise;
     };
     function getTypes(token, id){
       var deferred = $q.defer();
-      $('#fakeModal').modal('show');
       $http({
         method: 'POST',
         url: baseUrl+'/'+id,
@@ -302,17 +315,13 @@ angular
             f: 'json'
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).success(function (data) {
-        deferred.resolve(data);
-      }).finally(function () {
-        $('#fakeModal').modal('hide');
-      });
+      }).success(deferred.resolve)
+      .error(deferred.resolve);
       return deferred.promise;
     };
     function getSites (token) {
        var deferred = $q.defer();
-       $('#fakeModal').modal('show');
-      $http({
+       $http({
         method: 'POST',
         url: baseUrl+'/0/query',
         data: $.param(
@@ -324,16 +333,12 @@ angular
             f: 'json'
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).success(function (data) {
-        deferred.resolve(data);
-      }).finally(function () {
-        $('#fakeModal').modal('hide');
-      });
+      }).success(deferred.resolve)
+      .error(deferred.resolve);
       return deferred.promise;
     };
     function checkAssetExists (token, id, table) {
        var deferred = $q.defer();
-       $('#fakeModal').modal('show');
       $http({
         method: 'POST',
         url: baseUrl+'/'+ table +'/query',
@@ -346,17 +351,13 @@ angular
             f: 'json'
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).success(function (data) {
-        deferred.resolve(data);
-      }).finally(function () {
-        $('#fakeModal').modal('hide');
-      });
+      }).success(deferred.resolve)
+      .error(deferred.resolve);
       return deferred.promise;
     };
     function submitAsset (token, feature, table, oid) {
        var deferred = $q.defer();
-       $('#fakeModal').modal('show');
-      $http({
+       $http({
         method: 'POST',
         url: baseUrl+'/'+ table +'/' + ((oid) ? 'updateFeatures' : 'addFeatures'),
         params:
@@ -365,11 +366,8 @@ angular
             features: JSON.stringify([feature]),
             f: 'json'
           }
-        }).success(function (data) {
-        deferred.resolve(data);
-      }).finally(function () {
-        $('#fakeModal').modal('hide');
-      });
+        }).success(deferred.resolve)
+      .error(deferred.resolve);
       return deferred.promise;
     }
   }]);

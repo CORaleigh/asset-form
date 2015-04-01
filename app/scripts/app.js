@@ -16,5 +16,6 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    'cfp.loadingBar'
   ]);
