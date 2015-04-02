@@ -7,8 +7,17 @@ angular
       templateUrl: 'scripts/assetForm/assetForm.html',
       controller: function ($scope, $timeout, $window, login) {
         $scope.toggleGrayout = function (show) {
-          $('#fakeModal').modal(((show) ? 'show' : 'hide'));
-          console.log(((show) ? 'show' : 'hide'));
+/*          $('#fakeModal').modal(((show) ? 'show' : 'hide'));
+          console.log(((show) ? 'show' : 'hide'));*/
+          
+          if (show) {
+            $scope.grayout = show;
+          } else {
+           $timeout(function () {
+            $scope.grayout = show;
+          }, 500);           
+          }
+
         }
         var showMessage = function (type, message) {
           $scope.alert = {type: type, message: message};
@@ -50,7 +59,9 @@ angular
             });
         };
         var getTypes = function (token, id) {
+            $scope.toggleGrayout(true);
              assets.getTypes($scope.token, id).then(function (data) {
+              $scope.toggleGrayout(false);
               if (data.error) {
                 if (data.error.code === 498) {
                   login.login($scope.user, $scope.password).then(function (token) {
@@ -63,6 +74,8 @@ angular
                 $scope.fields = [];
                 $scope.types = data.types;
               }
+            }, function (status, data) {
+              $scope.toggleGrayout(false);
             });
         }
         var checkAssetExists = function (token, field, id) {

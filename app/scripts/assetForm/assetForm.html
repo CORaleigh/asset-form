@@ -1,3 +1,4 @@
+<div id="grayout" ng-class="{grayout: grayout, animated: grayout, fadeOut: grayout}"></div>
 <div class="well">
 	<select class="form-control" ng-model="table" ng-options="table as table.name for table in tables track by table.id" ng-change="tableSelected(table.id)">
 		<option value="">Select a trade...</option>

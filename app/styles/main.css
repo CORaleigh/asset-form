@@ -43,3 +43,14 @@ select {
 .uppercase {
   text-transform: uppercase;
 }
+
+.grayout {
+  background-color: #444;
+  opacity: 0.40;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+}
