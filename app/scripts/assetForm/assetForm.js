@@ -10,47 +10,24 @@ angular
           $('#fakeModal').modal(((show) ? 'show' : 'hide'));
           console.log(((show) ? 'show' : 'hide'));
         }
-        var getTypes = function (token, id) {
-             assets.getTypes($scope.token, id).then(function (data) {
-              if (data.error) {
-                if (data.error.code === 498) {
-                  login.login($scope.user, $scope.password).then(function (token) {
-                    $scope.token = token;
-                    getTypes(token, id);
-                  });
-                }
-              } else {
-                $scope.tableData = data;
-                $scope.fields = [];
-                $scope.types = data.types;                
-              }
-            });         
-        }        
-        $scope.siteSelected = function () {
-          var flds = $scope.fields.filter(function (f) {
-            return f.name === 'SITE' || f.name === 'LOCATION';
-          });
-          if (flds.length > 0) {
-            angular.forEach(flds, function (f) {
-              if (f.name === 'SITE') {
-                $scope.site = f.value;
-                $scope.buildings = f.value.buildings;                
-              } else if (f.name === 'LOCATION') {
-                f.value = undefined;
-              }
-            });
-          }
+        var showMessage = function (type, message) {
+          $scope.alert = {type: type, message: message};
+/*          $timeout(function () {
+            $scope.alert = null;
+          }, 10000);*/
+          $window.scrollTo(0,0);
         };
-        $scope.bldgSelected = function () {
+        var getTag = function () {
+          var tag = "";
           var f = $scope.fields.filter(function (f) {
-            return f.name === 'LOCATION';
+            return f.name === 'ASSET_TAG';
           });
           if (f.length > 0) {
             f = f[0];
-            $scope.building = f.value;
+            tag = f.value;
           }
+          return tag;
         };
-
         var getSites = function (token) {
             assets.getSites(token).then(function (data) {
               $scope.sites = [];
@@ -72,66 +49,22 @@ angular
               });
             });
         };
-
-        $scope.$watch('token', function (token) {
-          if (token) {
-            $scope.toggleGrayout(true);
-            assets.getTables(token).then(function (data) {
-              $scope.toggleGrayout(false);
-              $scope.tables = data.tables;
-              getSites(token);
-            });
-            
-          }
-        });
-        $scope.tableSelected = function (id) {
-          $scope.alert = null;
-          $scope.oid = null;
-          getTypes($scope.token, id);
-        };
-
-
-
-        $scope.typeSelected = function (type) {
-          console.log($scope.fields);
-          angular.forEach($scope.tableData.fields, function (f) {
-            if (type.domains[f.name]) {
-              if (type.domains[f.name].codedValues) {
-                f.domain = type.domains[f.name];
+        var getTypes = function (token, id) {
+             assets.getTypes($scope.token, id).then(function (data) {
+              if (data.error) {
+                if (data.error.code === 498) {
+                  login.login($scope.user, $scope.password).then(function (token) {
+                    $scope.token = token;
+                    getTypes(token, id);
+                  });
+                }
+              } else {
+                $scope.tableData = data;
+                $scope.fields = [];
+                $scope.types = data.types;
               }
-            } else {
-              f.domain = null;
-            }
-            console.log(f.name);
-            console.log(f.nullable);
-          });
-          $scope.fields = $scope.tableData.fields;
-          $scope.clearForm(false);
-        };
-        $scope.dateInit = function (e) {
-          $('.date').datepicker({clearBtn: true});
-        };
-        $scope.inputBlur = function (field) {
-          if (field.name == 'ASSET_TAG') {
-
-            $scope.facilityid = field.value;
-            $scope.oid = null;
-            checkAssetExists($scope.token, field, $scope.table.id);
-          }
+            });
         }
-
-        var getTag = function () {
-          var tag = "";
-          var f = $scope.fields.filter(function (f) {
-            return f.name === 'ASSET_TAG';
-          });
-          if (f.length > 0) {
-            f = f[0];
-            tag = f.value;
-          }   
-          return tag;       
-        };
-
         var checkAssetExists = function (token, field, id) {
             $scope.toggleGrayout(true);
             assets.checkAssetExists(token, field.value, id).then(function (data) {
@@ -155,7 +88,6 @@ angular
               $scope.toggleGrayout(false);
             });
         };
-
         var setFieldValues = function (attributes) {
           var site = $scope.sites.filter(function (s) {
             return s.name === attributes['SITE'];
@@ -196,15 +128,102 @@ angular
               }
           });
         };
-
-        function showMessage (type, message) {
-          $scope.alert = {type: type, message: message};
-/*          $timeout(function () {
-            $scope.alert = null;
-          }, 10000);*/
-          $window.scrollTo(0,0);
+        var submitAsset = function(token, feature, id, oid) {
+          $scope.processing = true;
+          $scope.toggleGrayout(true);
+          assets.submitAsset(token, feature, id, oid).then(function (data) {
+            $scope.processing = false;
+            $scope.toggleGrayout(false);
+            console.log(data);
+            var success = false;
+              if (data.error) {
+                if (data.error.code === 498) {
+                  login.login($scope.user, $scope.password).then(function (token) {
+                    $scope.token = token;
+                    submitAsset(token, feature, id, oid);
+                  });
+                }
+              } else {
+                 if (data.addResults) {
+                  success = data.addResults[0].success;
+                } else if (data.updateResults) {
+                  success = data.updateResults[0].success;
+                }
+                if (success) {
+                  showMessage("success", "Asset with tag " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created'));
+                } else {
+                  showMessage("danger", "Error submitting assets, please try again");
+                }
+                $scope.oid = null;
+                $scope.clearForm(false);
+              }
+          });
         };
-
+        $scope.$watch('token', function (token) {
+          if (token) {
+            $scope.toggleGrayout(true);
+            assets.getTables(token).then(function (data) {
+              $scope.toggleGrayout(false);
+              $scope.tables = data.tables;
+              getSites(token);
+            });
+          }
+        });
+        $scope.tableSelected = function (id) {
+          $scope.alert = null;
+          $scope.oid = null;
+          getTypes($scope.token, id);
+        };
+        $scope.typeSelected = function (type) {
+          console.log($scope.fields);
+          angular.forEach($scope.tableData.fields, function (f) {
+            if (type.domains[f.name]) {
+              if (type.domains[f.name].codedValues) {
+                f.domain = type.domains[f.name];
+              }
+            } else {
+              f.domain = null;
+            }
+            console.log(f.name);
+            console.log(f.nullable);
+          });
+          $scope.fields = $scope.tableData.fields;
+          $scope.clearForm(false);
+        };
+        $scope.siteSelected = function () {
+          var flds = $scope.fields.filter(function (f) {
+            return f.name === 'SITE' || f.name === 'LOCATION';
+          });
+          if (flds.length > 0) {
+            angular.forEach(flds, function (f) {
+              if (f.name === 'SITE') {
+                $scope.site = f.value;
+                $scope.buildings = f.value.buildings;
+              } else if (f.name === 'LOCATION') {
+                f.value = undefined;
+              }
+            });
+          }
+        };
+        $scope.bldgSelected = function () {
+          var f = $scope.fields.filter(function (f) {
+            return f.name === 'LOCATION';
+          });
+          if (f.length > 0) {
+            f = f[0];
+            $scope.building = f.value;
+          }
+        };
+        $scope.dateInit = function (e) {
+          $('.date').datepicker({clearBtn: true});
+        };
+        $scope.inputBlur = function (field) {
+          if (field.name == 'ASSET_TAG') {
+            $scope.facilityid = field.value;
+            $scope.oid = null;
+            checkAssetExists($scope.token, field, $scope.table.id);
+          }
+        };
         $scope.clearForm = function (all) {
           $scope.oid = null;
           angular.forEach($scope.fields, function (f) {
@@ -216,7 +235,7 @@ angular
               }
             }
           });
-        }
+        };
         $scope.submitForm = function () {
           var feature = {attributes: {}};
           $scope.processing = true;
@@ -245,13 +264,13 @@ angular
                 break;
                 default:
                   if (f.value) {
-                    feature.attributes[f.name] = f.value;                 
+                    feature.attributes[f.name] = f.value;
                     if (f.value === '') {
                       feature.attributes[f.name] = null;
                     }
                   } else {
                       feature.attributes[f.name] = null;
-                    }              
+                    }
                 break;
               }
           });
@@ -260,39 +279,6 @@ angular
           }
           $scope.feature = feature;
           submitAsset($scope.token, feature, $scope.table.id, $scope.oid);
-        };
-
-        var submitAsset = function(token, feature, id, oid) {
-          $scope.processing = true;
-          $scope.toggleGrayout(true);
-          assets.submitAsset(token, feature, id, oid).then(function (data) {
-            $scope.processing = false;
-            $scope.toggleGrayout(false);
-            console.log(data);
-            var success = false;
-              if (data.error) {
-                if (data.error.code === 498) {
-                  login.login($scope.user, $scope.password).then(function (token) {
-                    $scope.token = token;
-                    submitAsset(token, feature, id, oid);
-                  });
-                }
-              } else {
-                 if (data.addResults) {
-                  success = data.addResults[0].success;
-                } else if (data.updateResults) {
-                  success = data.updateResults[0].success;
-                }
-                if (success) {
-                  showMessage("success", "Asset with tag " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created'));
-                } else {
-                  showMessage("danger", "Error submitting assets, please try again");
-                }
-                
-                $scope.oid = null;
-                $scope.clearForm(false);               
-              }
-          });
         };
       },
       link: function (scope, element, attrs, loginFormCtrl) {

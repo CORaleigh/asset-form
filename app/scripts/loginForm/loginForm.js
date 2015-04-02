@@ -41,8 +41,6 @@ angular
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).success(function (data) {
-        console.log(new Date(data.expires));
-        console.log(new Date())
         deferred.resolve(data.token);
       }).
 	  error(function(data, status, headers, config) {
