@@ -126,6 +126,9 @@ angular
                   }
                 break;
               }
+              if ($scope.uppercaseFields.indexOf(f.name) > -1) {
+                f.value = f.value.toUpperCase();
+              }
           });
         };
         var submitAsset = function(token, feature, id, oid) {
@@ -284,6 +287,7 @@ angular
       link: function (scope, element, attrs, loginFormCtrl) {
         scope.hiddenFields = attrs.hiddenFields.split(',');
         scope.persistedFields = attrs.persistedFields.split(',');
+        scope.uppercaseFields = attrs.uppercaseFields.split(',');
       }
     }
   }])
