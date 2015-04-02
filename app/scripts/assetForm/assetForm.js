@@ -85,6 +85,8 @@ angular
           }
         });
         $scope.tableSelected = function (id) {
+          $scope.alert = null;
+          $scope.oid = null;
           getTypes($scope.token, id);
         };
 
@@ -97,6 +99,8 @@ angular
               if (type.domains[f.name].codedValues) {
                 f.domain = type.domains[f.name];
               }
+            } else {
+              f.domain = null;
             }
             console.log(f.name);
             console.log(f.nullable);
@@ -116,6 +120,18 @@ angular
           }
         }
 
+        var getTag = function () {
+          var tag = "";
+          var f = $scope.fields.filter(function (f) {
+            return f.name === 'ASSET_TAG';
+          });
+          if (f.length > 0) {
+            f = f[0];
+            tag = f.value;
+          }   
+          return tag;       
+        };
+
         var checkAssetExists = function (token, field, id) {
             $scope.toggleGrayout(true);
             assets.checkAssetExists(token, field.value, id).then(function (data) {
@@ -131,7 +147,7 @@ angular
               } else if (data.features.length > 0) {
                 $scope.oid = data.features[0].attributes.OBJECTID;
                 setFieldValues(data.features[0].attributes);
-                showMessage("warning", "Asset with this tag has already been created, changes will update the existing asset")
+                showMessage("warning", "Asset with tag " + getTag() + " has already been created, changes will update the existing asset")
               } else {
                 $scope.alert = null;
               }
@@ -183,9 +199,9 @@ angular
 
         function showMessage (type, message) {
           $scope.alert = {type: type, message: message};
-          $timeout(function () {
+/*          $timeout(function () {
             $scope.alert = null;
-          }, 10000);
+          }, 10000);*/
           $window.scrollTo(0,0);
         };
 
@@ -268,7 +284,7 @@ angular
                   success = data.updateResults[0].success;
                 }
                 if (success) {
-                  showMessage("success", "Asset successfully " + ((data.updateResults) ? 'updated': 'created'));
+                  showMessage("success", "Asset with tag " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created'));
                 } else {
                   showMessage("danger", "Error submitting assets, please try again");
                 }
