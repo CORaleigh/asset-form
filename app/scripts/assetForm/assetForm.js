@@ -95,6 +95,7 @@ angular
                 setFieldValues(data.features[0].attributes);
                 showMessage("warning", "Asset with tag " + getTag() + " has already been created, changes will update the existing asset")
               } else {
+                $scope.clearForm(false);
                 $scope.alert = null;
               }
             }, function (status, data) {
@@ -176,7 +177,7 @@ angular
           });
         };
         $scope.$watch('token', function (token) {
-          if (token) {
+          if (token && !$scope.tables) {
             $scope.toggleGrayout(true);
             assets.getTables(token).then(function (data) {
               $scope.toggleGrayout(false);
@@ -240,14 +241,19 @@ angular
             checkAssetExists($scope.token, field, $scope.table.id);
           }
         };
-        $scope.clearForm = function (all) {
+        $scope.clearForm = function (all, keepTag) {
           $scope.oid = null;
           angular.forEach($scope.fields, function (f) {
             if (all) {
               f.value = null;
             } else {
               if ($scope.persistedFields.indexOf(f.name) === -1) {
-                f.value = null;
+                if (f.name === 'ASSET_TAG' && !keepTag) {
+                  f.value = f.value;
+                } 
+                else {
+                  f.value = null;
+                }
               }
             }
           });
