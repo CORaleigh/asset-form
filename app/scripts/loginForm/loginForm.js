@@ -8,11 +8,14 @@ angular
         $scope.token = '';
         $scope.loggedIn = true;
         $scope.login = function (user, password) {
-          login.login(user, password).then(function (token) {
-            $scope.token = token;
-            $scope.loggedIn = token;
-            if (token) {
-              $scope.modal.modal('hide');
+          login.login(user, password).then(function (data) {
+            if (data.token) {
+              $scope.token = data.token;
+              $scope.loggedIn = data.token;
+              $scope.modal.modal('hide');         
+            } else if (data.error) {
+              $scope.loggedIn = false;
+              $scope.message = data.error.details;
             }
           });
         };
@@ -40,13 +43,8 @@ angular
             f: 'json'
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).success(function (data) {
-        deferred.resolve(data.token);
-      }).
-	  error(function(data, status, headers, config) {
-	    // called asynchronously if an error occurs
-	    // or server returns response with an error status.
-	  });
+      }).success(deferred.resolve).
+	  error(deferred.resolve);
       return deferred.promise;
     };
   }]);

@@ -60,7 +60,7 @@ angular
         };
         var getTypes = function (token, id) {
             $scope.toggleGrayout(true);
-             assets.getTypes($scope.token, id).then(function (data) {
+             assets.getTypes($scope.token, id).then(function (data, a, b) {
               $scope.toggleGrayout(false);
               if (data.error) {
                 if (data.error.code === 498) {
@@ -69,7 +69,11 @@ angular
                     getTypes(token, id);
                   });
                 }
-              } else {
+              } 
+               else {
+                if (data === "") {
+                  $scope.alert = {type: 'danger', message: 'Could not complete request, check internet connectivity!'}
+                }                
                 $scope.tableData = data;
                 $scope.fields = [];
                 $scope.types = data.types;
@@ -95,9 +99,13 @@ angular
                 setFieldValues(data.features[0].attributes);
                 showMessage("warning", "Asset with tag " + getTag() + " has already been created, changes will update the existing asset")
               } else {
+                if (data === "") {
+                  $scope.alert = {type: 'danger', message: 'Could not complete request, check internet connectivity!'}
+                }                   
                 $scope.clearForm(false);
                 $scope.alert = null;
               }
+
             }, function (status, data) {
               $scope.toggleGrayout(false);
             });
@@ -168,11 +176,12 @@ angular
                 }
                 if (success) {
                   showMessage("success", "Asset with tag " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created'));
+                  $scope.oid = null;
+                  $scope.clearForm(false);               
                 } else {
-                  showMessage("danger", "Error submitting assets, please try again");
+                  showMessage("danger", "Error submitting assets, please check internet connectivity and try again");
                 }
-                $scope.oid = null;
-                $scope.clearForm(false);
+
               }
           });
         };
@@ -183,6 +192,8 @@ angular
               $scope.toggleGrayout(false);
               $scope.tables = data.tables;
               getSites(token);
+            }, function (status, data) {
+              $scope.toggleGrayout(false);
             });
           }
         });
