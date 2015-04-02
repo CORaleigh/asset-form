@@ -126,7 +126,7 @@ angular
                   }
                 break;
               }
-              if ($scope.uppercaseFields.indexOf(f.name) > -1) {
+              if ($scope.uppercaseFields.indexOf(f.name) > -1 && f.value) {
                 f.value = f.value.toUpperCase();
               }
           });
