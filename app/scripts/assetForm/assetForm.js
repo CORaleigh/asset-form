@@ -64,9 +64,9 @@ angular
               $scope.toggleGrayout(false);
               if (data.error) {
                 if (data.error.code === 498) {
-                  login.login($scope.user, $scope.password).then(function (token) {
-                    $scope.token = token;
-                    getTypes(token, id);
+                  login.login($scope.user, $scope.password).then(function (data) {
+                    $scope.token = data.token;
+                    getTypes(data.token, id);
                   });
                 }
               } 
@@ -89,8 +89,8 @@ angular
               console.log(data);
               if (data.error) {
                 if (data.error.code === 498) {
-                  login.login($scope.user, $scope.password).then(function (token) {
-                    $scope.token = token;
+                  login.login($scope.user, $scope.password).then(function (data) {
+                    $scope.token = data.token;
                     checkAssetExists($scope.token, field, $scope.table.id);
                   });
                 }
@@ -163,9 +163,9 @@ angular
             var success = false;
               if (data.error) {
                 if (data.error.code === 498) {
-                  login.login($scope.user, $scope.password).then(function (token) {
-                    $scope.token = token;
-                    submitAsset(token, feature, id, oid);
+                  login.login($scope.user, $scope.password).then(function (data) {
+                    $scope.token = data.token;
+                    submitAsset(data.token, feature, id, oid);
                   });
                 }
               } else {
