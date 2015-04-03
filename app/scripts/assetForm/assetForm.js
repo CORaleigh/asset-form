@@ -102,7 +102,7 @@ angular
                 if (data === "") {
                   $scope.alert = {type: 'danger', message: 'Could not complete request, check internet connectivity!'}
                 }                   
-                $scope.clearForm(false, true);
+                //$scope.clearForm(false, true);
                 $scope.alert = null;
               }
 
