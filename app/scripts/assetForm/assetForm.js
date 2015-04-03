@@ -102,7 +102,7 @@ angular
                 if (data === "") {
                   $scope.alert = {type: 'danger', message: 'Could not complete request, check internet connectivity!'}
                 }                   
-                $scope.clearForm(false);
+                $scope.clearForm(false, true);
                 $scope.alert = null;
               }
 
@@ -144,7 +144,7 @@ angular
                 default:
                   f.value = attributes[f.name];
                   if (f.type === 'esriFieldTypeDate' && f.value) {
-                    f.value = moment(f.value).format('MM/DD/YYYY');
+                    f.value = moment(f.value).zone(-5).format('MM/DD/YYYY');
                   }
                 break;
               }
@@ -177,7 +177,7 @@ angular
                 if (success) {
                   showMessage("success", "Asset with tag " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created'));
                   $scope.oid = null;
-                  $scope.clearForm(false);               
+                  $scope.clearForm(false, false);               
                 } else {
                   showMessage("danger", "Error submitting assets, please check internet connectivity and try again");
                 }
@@ -216,7 +216,7 @@ angular
             console.log(f.nullable);
           });
           $scope.fields = $scope.tableData.fields;
-          $scope.clearForm(false);
+          $scope.clearForm(false, false);
         };
         $scope.siteSelected = function () {
           var flds = $scope.fields.filter(function (f) {
@@ -259,13 +259,13 @@ angular
               f.value = null;
             } else {
               if ($scope.persistedFields.indexOf(f.name) === -1) {
-                if (f.name === 'ASSET_TAG' && !keepTag) {
+                if (keepTag && f.name === 'ASSET_TAG') {
                   f.value = f.value;
-                } 
-                else {
+                } else {
                   f.value = null;
                 }
-              }
+                
+              } 
             }
           });
         };
