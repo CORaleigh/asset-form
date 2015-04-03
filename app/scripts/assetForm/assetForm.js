@@ -363,9 +363,10 @@ angular
         data: $.param(
           {
             token: token,
-            where: '1=1',
+            where: "EXISTING = 'Yes'",
             returnGeometry: false,
             outFields: '*',
+            orderByFields: 'SITE, LOCATION',
             f: 'json'
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}

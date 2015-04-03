@@ -3,7 +3,7 @@
 	<select class="form-control" ng-model="table" ng-options="table as table.name for table in tables track by table.id" ng-change="tableSelected(table.id)">
 		<option value="">Select a trade...</option>
 	</select>
-	<select class="form-control" ng-model="type" ng-options="type as type.name for type in types" ng-change="typeSelected(type)" ng-disabled="!types">
+	<select class="form-control" ng-model="type" ng-options="type as type.name for type in types | orderBy: 'name'" ng-change="typeSelected(type)" ng-disabled="!types">
 		<option value="">Select an asset type...</option>
 	</select>
 </div>
@@ -21,7 +21,7 @@
 				<option value="">Select a building...</option>
 			</select>
 			<!--domains-->
-			<select name="field" ng-if="f.domain" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues" class="form-control" ng-required="{{!f.nullable}}">
+			<select name="field" ng-if="f.domain" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues | orderBy: 'name'" class="form-control" ng-required="{{!f.nullable}}">
 				<option value="">Select a value...</option>
 			</select>
 			<!--date input-->
