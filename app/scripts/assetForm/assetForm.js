@@ -243,7 +243,7 @@ angular
           }
         };
         $scope.dateInit = function (e) {
-          $('.date').datepicker({clearBtn: true});
+          $('.date').datepicker({clearBtn: true, endDate: '+0d', startDate: '-100y'});
         };
         $scope.inputBlur = function (field) {
           if (field.name == 'ASSET_TAG') {
