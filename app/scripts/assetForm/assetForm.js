@@ -145,12 +145,12 @@ angular
                   f.value = attributes[f.name];
                   if (f.type === 'esriFieldTypeDate' && f.value) {
                     f.value = moment(f.value).zone(-5).format('MM/DD/YYYY');
-                  }
+                  } else if ($scope.uppercaseFields.indexOf(f.name) > -1 && f.value) {
+                    f.value = f.value.toUpperCase();
+                  }                  
                 break;
               }
-              if ($scope.uppercaseFields.indexOf(f.name) > -1 && f.value) {
-                f.value = f.value.toUpperCase();
-              }
+
           });
         };
         var submitAsset = function(token, feature, id, oid) {
@@ -307,9 +307,12 @@ angular
                     if (f.value === '') {
                       feature.attributes[f.name] = null;
                     }
+                    if ($scope.uppercaseFields.indexOf(f.name) > -1 && f.value) {
+                      feature.attributes[f.name] = f.value.toUpperCase();
+                    }                      
                   } else {
                       feature.attributes[f.name] = null;
-                    }
+                  }
                 break;
               }
           });
