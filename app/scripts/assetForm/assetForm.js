@@ -214,12 +214,6 @@ angular
             }
             console.log(f.name);
             console.log(f.nullable);
-            if (f.domain) {
-              if ($scope.noOrderFields.indexOf(f.name) === -1) {
-                f.orderBy = "'name'";
-              } 
-            }
-            
           });
           $scope.fields = $scope.tableData.fields;
           $scope.clearForm(false, false);
@@ -327,7 +321,6 @@ angular
         scope.hiddenFields = attrs.hiddenFields.split(',');
         scope.persistedFields = attrs.persistedFields.split(',');
         scope.uppercaseFields = attrs.uppercaseFields.split(',');
-        scope.noOrderFields = attrs.noOrderFields.split(',');
       }
     }
   }])

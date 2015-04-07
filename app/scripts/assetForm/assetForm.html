@@ -21,10 +21,7 @@
 				<option value="">Select a building...</option>
 			</select>
 			<!--domains-->
-			<select name="field" ng-if="f.domain && f.orderBy" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues | orderBy: f.orderBy" class="form-control" ng-required="{{!f.nullable}}">
-				<option value="">Select a value...</option>
-			</select>
-			<select name="field" ng-if="f.domain && !f.orderBy" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues" class="form-control" ng-required="{{!f.nullable}}">
+			<select name="field" ng-if="f.domain" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues" class="form-control" ng-required="{{!f.nullable}}">
 				<option value="">Select a value...</option>
 			</select>			
 			<!--date input-->
