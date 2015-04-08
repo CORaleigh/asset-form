@@ -39,7 +39,7 @@ angular
             request: 'getToken',
             username: user,
             password: password,
-            expiration: 1,
+            expiration: 60,
             f: 'json'
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
