@@ -76,6 +76,7 @@ angular
                 }                
                 $scope.tableData = data;
                 $scope.fields = [];
+                $scope.prefix = data.description;
                 $scope.types = data.types;
               }
             }, function (status, data) {
@@ -200,6 +201,7 @@ angular
         $scope.tableSelected = function (id) {
           $scope.alert = null;
           $scope.oid = null;
+          console.log($scope.table);
           getTypes($scope.token, id);
         };
         $scope.typeSelected = function (type) {
