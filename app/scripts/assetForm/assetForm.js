@@ -97,7 +97,7 @@ angular
               } else if (data.features.length > 0) {
                 $scope.oid = data.features[0].attributes.OBJECTID;
                 setFieldValues(data.features[0].attributes);
-                showMessage("warning", "Asset with tag " + getTag() + " has already been created, changes will update the existing asset")
+                showMessage("warning", "Asset with tag " + getTag() + " has already been created. Any changes will update the existing asset.")
               } else {
                 if (data === "") {
                   $scope.alert = {type: 'danger', message: 'Could not complete request, check internet connectivity!'}
