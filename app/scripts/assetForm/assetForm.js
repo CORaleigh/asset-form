@@ -218,7 +218,7 @@ angular
             console.log(f.nullable);
           });
           $scope.fields = $scope.tableData.fields;
-          $scope.clearForm(false, false);
+          //$scope.clearForm(false, true);
         };
         $scope.siteSelected = function () {
           var flds = $scope.fields.filter(function (f) {
