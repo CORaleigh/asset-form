@@ -32,6 +32,9 @@
 			<div ng-if="f.name === 'ASSET_TAG'">
 				<div class="pull-left tag-prefix">{{prefix}} - </div>
 				<input name="field" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" ng-blur="inputBlur(f)" class="form-control tag-input" ng-pattern="/^\d+$/" autocomplete="off"></input>
+				<button type="button" class="btn btn-default btn-md searchButton">
+				  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
 			</div>
 			<!--free form input-->
 			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION' && f.name!= 'ASSET_TAG'" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control" ng-class="{uppercase: uppercaseFields.indexOf(f.name) > -1}" autocomplete="off"></input>

@@ -45,13 +45,19 @@ select {
 }
 
 .tag-input {
-  width: 97%;
-
+  width: 90%;
+  display: inline;
 }
 
 .tag-prefix {
   margin-right: 6px;
   margin-top: 6px;
+  display: inline;
+}
+
+.searchButton {
+  margin-top: -3px;
+  display: inline;
 }
 
 .grayout {
@@ -67,20 +73,25 @@ select {
 
 @media (max-width: 1000px) {
   .tag-input {
-    width: 96%;
+    width: 90%;
   }
 }
 @media (max-width: 700px) {
   .tag-input {
-    width: 95%;
+    width: 83%;
   }
 }
 @media (max-width: 500px) {
   .tag-input {
-    width: 93%;
+    width: 80%;
 }
 @media (max-width: 400px) {
   .tag-input {
-    width: 90%;
+    width: 74%;
+}
+}
+@media (max-width: 300px) {
+  .tag-input {
+    width: 70%;
 }
 }
