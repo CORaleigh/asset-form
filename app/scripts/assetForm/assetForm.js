@@ -256,7 +256,6 @@ angular
         };
         $scope.clearForm = function (all, keepTag) {
           $scope.oid = null;
-          $scope.alert = null;
           angular.forEach($scope.fields, function (f) {
             if (all) {
               f.value = null;
