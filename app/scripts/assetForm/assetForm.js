@@ -276,6 +276,7 @@ angular
           $scope.types = null;
           $scope.fields = null;
           $scope.table = null;
+          $scope.oid = null;
         };
         $scope.submitForm = function () {
           var feature = {attributes: {}};
