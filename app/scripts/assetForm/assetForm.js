@@ -72,7 +72,7 @@ angular
               } 
                else {
                 if (data === "") {
-                  $scope.alert = {type: 'danger', message: 'Could not complete request, check internet connectivity!'}
+                  $scope.showMessage('danger', 'Could not complete request, check internet connectivity!');
                 }                
                 $scope.tableData = data;
                 $scope.fields = [];
@@ -98,10 +98,10 @@ angular
               } else if (data.features.length > 0) {
                 $scope.oid = data.features[0].attributes.OBJECTID;
                 setFieldValues(data.features[0].attributes);
-                showMessage("warning", "Asset with tag " + getTag() + " has already been created. Any changes will update the existing asset.")
+                showMessage("warning", $scope.type.name + " with tag " + $scope.prefix + " - " + getTag() + " has already been created. Any changes will update the existing asset.")
               } else {
                 if (data === "") {
-                  $scope.alert = {type: 'danger', message: 'Could not complete request, check internet connectivity!'}
+                  $scope.showMessage('danger', 'Could not complete request, check internet connectivity!');
                 }                   
                 //$scope.clearForm(false, true);
                 $scope.alert = null;
@@ -176,7 +176,7 @@ angular
                   success = data.updateResults[0].success;
                 }
                 if (success) {
-                  showMessage("success", "Asset with tag " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created'));
+                  showMessage("success", $scope.type.name + " with tag " + $scope.prefix + " - " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created') + ".");
                   $scope.oid = null;
                   $scope.clearForm(false, false);               
                 } else {
@@ -266,7 +266,6 @@ angular
                 } else {
                   f.value = null;
                 }
-                
               } 
             }
           });
@@ -278,6 +277,12 @@ angular
           $scope.table = null;
           $scope.oid = null;
         };
+        $scope.confirm = function () {
+          $scope.confirmation.modal({keyboard: false, backdrop: 'static'});
+        };
+        $scope.hideConfirmation = function () {
+          $scope.confirmation.modal('hide');
+        }
         $scope.submitForm = function () {
           var feature = {attributes: {}};
           $scope.processing = true;
@@ -330,6 +335,7 @@ angular
         scope.hiddenFields = attrs.hiddenFields.split(',');
         scope.persistedFields = attrs.persistedFields.split(',');
         scope.uppercaseFields = attrs.uppercaseFields.split(',');
+        scope.confirmation = $('#confirmModal', element[0]);
       }
     }
   }])

@@ -47,7 +47,24 @@
 	        <span id="helpBlock" class="help-block" ng-if="fieldForm.field.$error.pattern">Only accepts integers</span>
 			</ng-form>
 	</div>
-	<button type="button" class="btn btn-success" ng-click="submitForm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
+	<button type="button" class="btn btn-success" ng-click="confirm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
 	<button type="button" class="btn btn-danger" ng-click="clearForm(true)" ng-show="type">Clear</button>
 	<button type="button" class="btn btn-danger" ng-click="resetForm()" ng-show="type">Reset</button>	
 </form>
+      <div id="confirmModal" class="modal" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body">
+              <center>
+              <span></span>
+              <div>
+              	<strong>{{((oid) ? 'Update ' : 'Add ')}}</strong>{{((oid) ? 'an existing ' : 'a new ')}}<strong>{{type.name}}</strong> with an asset tag of <strong>{{prefix}}-{{facilityid}}</strong>?
+              	<p/>
+                <button class="btn btn-success" ng-click="submitForm();hideConfirmation();">Yes</button>
+                <button class="btn btn-danger" ng-click="hideConfirmation()">No</button>
+              </div>
+            </center>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
