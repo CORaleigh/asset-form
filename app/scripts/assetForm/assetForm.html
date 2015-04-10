@@ -49,4 +49,5 @@
 	</div>
 	<button type="button" class="btn btn-success" ng-click="submitForm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
 	<button type="button" class="btn btn-danger" ng-click="clearForm(true)" ng-show="type">Clear</button>
+	<button type="button" class="btn btn-danger" ng-click="resetForm()" ng-show="type">Reset</button>	
 </form>

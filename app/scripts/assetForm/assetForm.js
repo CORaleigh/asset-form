@@ -271,6 +271,12 @@ angular
             }
           });
         };
+        $scope.resetForm = function () {
+          $scope.type = null;
+          $scope.types = null;
+          $scope.fields = null;
+          $scope.table = null;
+        };
         $scope.submitForm = function () {
           var feature = {attributes: {}};
           $scope.processing = true;
