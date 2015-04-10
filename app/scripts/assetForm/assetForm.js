@@ -201,11 +201,11 @@ angular
         $scope.tableSelected = function (id) {
           $scope.alert = null;
           $scope.oid = null;
-          _gaq.push(['_trackEvent', 'Table', 'Table Selected', $scope.table.name]);
+          ga('send', 'event', 'Table', 'Table Selected', $scope.table.name);
           getTypes($scope.token, id);
         };
         $scope.typeSelected = function (type) {
-          _gaq.push(['_trackEvent', 'Type', 'Type Selected', $scope.type.name]);
+          ga('send', 'event', 'Type', 'Type Selected', $scope.type.name);
           angular.forEach($scope.tableData.fields, function (f) {
             if (type.domains[f.name]) {
               if (type.domains[f.name].codedValues) {
@@ -226,7 +226,7 @@ angular
             angular.forEach(flds, function (f) {
               if (f.name === 'SITE') {
                 $scope.site = f.value;
-                _gaq.push(['_trackEvent', 'Site', 'Site Selected', $scope.site.name]);
+                ga('send', 'event', 'Site', 'Site Selected', $scope.site.name);
                 $scope.buildings = f.value.buildings;
               } else if (f.name === 'LOCATION') {
                 f.value = undefined;
@@ -241,7 +241,7 @@ angular
           if (f.length > 0) {
             f = f[0];
             $scope.building = f.value;
-            _gaq.push(['_trackEvent', 'Building', 'Building Selected', $scope.building.name]);
+            ga('send', 'event', 'Building', 'Building Selected', $scope.building.name);
           }
         };
         $scope.dateInit = function (e) {
