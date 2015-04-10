@@ -48,8 +48,12 @@
 			</ng-form>
 	</div>
 	<button type="button" class="btn btn-success" ng-click="confirm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
-	<button type="button" class="btn btn-danger" ng-click="clearForm(true)" ng-show="type">Clear</button>
-	<button type="button" class="btn btn-danger" ng-click="resetForm()" ng-show="type">Reset</button>	
+	<button type="button" class="btn btn-danger" ng-click="clearForm(true)" ng-show="type">
+		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear
+	</button>
+	<button type="button" class="btn btn-danger" ng-click="resetForm()" ng-show="type">
+		<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
+	</button>	
 </form>
       <div id="confirmModal" class="modal" data-keyboard="false">
         <div class="modal-dialog modal-sm">
@@ -60,8 +64,12 @@
               <div>
               	<strong>{{((oid) ? 'Update ' : 'Add ')}}</strong>{{((oid) ? 'an existing asset with a type of ' : 'a new asset with a type of ')}}<strong>{{type.name}}</strong> and an asset tag of <strong>{{prefix}} - {{facilityid}}</strong> to the <strong>{{table.name}}</strong> trade table?
               	<p/>
-                <button class="btn btn-success" ng-click="submitForm();hideConfirmation();">Yes</button>
-                <button class="btn btn-danger" ng-click="hideConfirmation()">No</button>
+                <button class="btn btn-success" ng-click="submitForm();hideConfirmation();">
+                	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Yes
+                </button>
+                <button class="btn btn-danger" ng-click="hideConfirmation()">
+                	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> No
+                </button>
               </div>
             </center>
             </div>
