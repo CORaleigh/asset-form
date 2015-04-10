@@ -58,7 +58,7 @@
               <center>
               <span></span>
               <div>
-              	<strong>{{((oid) ? 'Update ' : 'Add ')}}</strong>{{((oid) ? 'an existing asset with a type of ' : 'a new asset with a type of ')}}<strong>{{type.name}}</strong> and an asset tag of <strong>{{prefix}}-{{facilityid}}</strong> to the <strong>{{table.name}}</strong> trade table?
+              	<strong>{{((oid) ? 'Update ' : 'Add ')}}</strong>{{((oid) ? 'an existing asset with a type of ' : 'a new asset with a type of ')}}<strong>{{type.name}}</strong> and an asset tag of <strong>{{prefix}} - {{facilityid}}</strong> to the <strong>{{table.name}}</strong> trade table?
               	<p/>
                 <button class="btn btn-success" ng-click="submitForm();hideConfirmation();">Yes</button>
                 <button class="btn btn-danger" ng-click="hideConfirmation()">No</button>
