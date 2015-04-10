@@ -276,6 +276,7 @@ angular
           $scope.fields = null;
           $scope.table = null;
           $scope.oid = null;
+          $scope.alert = null;
         };
         $scope.confirm = function () {
           $scope.confirmation.modal({keyboard: false, backdrop: 'static'});
