@@ -98,7 +98,7 @@ angular
               } else if (data.features.length > 0) {
                 $scope.oid = data.features[0].attributes.OBJECTID;
                 setFieldValues(data.features[0].attributes);
-                showMessage("warning", $scope.type.name + " with tag " + $scope.prefix + " - " + getTag() + " has already been created. Any changes will update the existing asset.")
+                showMessage("warning", 'An asset with a type of ' + $scope.type.name + " and a tag of " + $scope.prefix + " - " + getTag() + " has already been created. Any changes will update the existing asset.")
               } else {
                 if (data === "") {
                   $scope.showMessage('danger', 'Could not complete request, check internet connectivity!');
@@ -176,7 +176,7 @@ angular
                   success = data.updateResults[0].success;
                 }
                 if (success) {
-                  showMessage("success", $scope.type.name + " with tag " + $scope.prefix + " - " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created') + ".");
+                  showMessage("success", "An asset with a type of " + $scope.type.name + " and a tag of " + $scope.prefix + " - " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created') + ".");
                   $scope.oid = null;
                   $scope.clearForm(false, false);               
                 } else {
