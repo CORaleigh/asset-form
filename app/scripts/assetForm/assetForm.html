@@ -48,10 +48,10 @@
 			</ng-form>
 	</div>
 	<button type="button" class="btn btn-success" ng-click="confirm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
-	<button type="button" class="btn btn-danger" ng-click="clearForm(true);" click="ga('send', 'event', 'Buttons', 'Button Clicked', 'Clear');" ng-show="type">
+	<button type="button" class="btn btn-danger" ng-click="clearForm(true);" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Clear');" ng-show="type">
 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear
 	</button>
-	<button type="button" class="btn btn-danger" ng-click="resetForm();" click="ga('send', 'event', 'Buttons', 'Button Clicked', 'Reset');" ng-show="type">
+	<button type="button" class="btn btn-danger" ng-click="resetForm();" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Reset');" ng-show="type">
 		<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
 	</button>	
 </form>
