@@ -218,6 +218,7 @@ angular
             if (type.templates[0].prototype.attributes[f.name]) {
               if (type.templates[0].prototype.attributes[f.name] != " ") {
                 f.value = type.templates[0].prototype.attributes[f.name];
+                f.defaultValue = f.value;
               }
             }
           });
@@ -264,7 +265,12 @@ angular
           $scope.oid = null;
           angular.forEach($scope.fields, function (f) {
             if (all) {
-              f.value = null;
+              if (f.defaultValue) {
+                f.value = f.defaultValue;
+              } else {
+                f.value = null;
+              }
+              
             } else {
               if ($scope.persistedFields.indexOf(f.name) === -1) {
                 if (keepTag && f.name === 'ASSET_TAG') {
