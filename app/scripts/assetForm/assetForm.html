@@ -1,9 +1,9 @@
 <div id="grayout" ng-class="{grayout: grayout, animated: grayout, fadeOut: grayout}"></div>
 <div class="well">
-	<select class="form-control" ng-model="table" ng-options="table as table.name for table in tables track by table.id" ng-change="tableSelected(table.id)">
+	<select class="form-control input-lg" ng-model="table" ng-options="table as table.name for table in tables track by table.id" ng-change="tableSelected(table.id)">
 		<option value="">Select a trade...</option>
 	</select>
-	<select class="form-control" ng-model="type" ng-options="type as type.name for type in types | orderBy: 'name'" ng-change="typeSelected(type)" ng-disabled="!types">
+	<select class="form-control input-lg" ng-model="type" ng-options="type as type.name for type in types | orderBy: 'name'" ng-change="typeSelected(type)" ng-disabled="!types">
 		<option value="">Select an asset type...</option>
 	</select>
 </div>
@@ -14,30 +14,30 @@
 	<div ng-repeat="f in fields" class="form-group" ng-if="(!f.domain || f.domain.name.indexOf('NA_Domain') == -1) && hiddenFields.indexOf(f.name) == -1" ng-class="{'has-error': fieldForm.$invalid}">
 		<ng-form name="fieldForm">
 			<label class="control-label">{{f.alias}}</label>
-			<select name="field" ng-if="f.name === 'SITE'" ng-model="f.value" ng-options="site as site.name for site in sites track by site.id | orderBy: 'name'" class="form-control" ng-change="siteSelected();building = undefined;" required>
+			<select name="field" ng-if="f.name === 'SITE'" ng-model="f.value" ng-options="site as site.name for site in sites track by site.id | orderBy: 'name'" class="form-control input-lg" ng-change="siteSelected();building = undefined;" required>
 				<option value="">Select a site...</option>
 			</select>
-			<select  name="field" ng-if="f.name === 'LOCATION'" ng-model="f.value" ng-options="building as building.name for building in buildings track by building.id | orderBy: 'name'" class="form-control" ng-disabled="!buildings || buildings.length == 0" ng-change="bldgSelected()" required>
+			<select  name="field" ng-if="f.name === 'LOCATION'" ng-model="f.value" ng-options="building as building.name for building in buildings track by building.id | orderBy: 'name'" class="form-control input-lg" ng-disabled="!buildings || buildings.length == 0" ng-change="bldgSelected()" required>
 				<option value="">Select a building...</option>
 			</select>
 			<!--domains-->
-			<select name="field" ng-if="f.domain" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues" class="form-control" ng-required="{{!f.nullable}}">
+			<select name="field" ng-if="f.domain" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues" class="form-control input-lg" ng-required="{{!f.nullable}}">
 				<option value="">Select a value...</option>
 			</select>			
 			<!--date input-->
 			<div class="input-group date" ng-if="f.type == 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION'" ng-init="dateInit()">
-				<input name="field" class="form-control" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span></input>
+				<input name="field" class="form-control input-lg" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span></input>
 			</div>
 			<!--asset tag-->
 			<div ng-if="f.name === 'ASSET_TAG'">
 				<div class="pull-left tag-prefix">{{prefix}} - </div>
-				<input name="field" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" ng-blur="inputBlur(f)" class="form-control tag-input" ng-pattern="/^\d+$/" autocomplete="off"></input>
-				<button type="button" class="btn btn-default btn-md searchButton">
+				<input name="field" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" ng-blur="inputBlur(f)" class="form-control tag-input input-lg" ng-pattern="/^\d+$/" autocomplete="off"></input>
+				<button type="button" class="btn btn-default btn-lg searchButton">
 				  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>
 			</div>
 			<!--free form input-->
-			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION' && f.name!= 'ASSET_TAG'" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control" ng-class="{uppercase: uppercaseFields.indexOf(f.name) > -1}" autocomplete="off"></input>
+			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION' && f.name!= 'ASSET_TAG'" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control input-lg" ng-class="{uppercase: uppercaseFields.indexOf(f.name) > -1}" autocomplete="off"></input>
 	        <!--help blocks used for validation-->
 	        <!--max length message-->
 	        <span id="helpBlock" class="help-block" ng-if="fieldForm.field.$error.maxlength">Only accepts {{f.length}} characters</span>
@@ -47,11 +47,11 @@
 	        <span id="helpBlock" class="help-block" ng-if="fieldForm.field.$error.pattern">Only accepts integers</span>
 			</ng-form>
 	</div>
-	<button type="button" class="btn btn-success" ng-click="confirm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
-	<button type="button" class="btn btn-danger" ng-click="clearForm(true);" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Clear');" ng-show="type">
+	<button type="button" class="btn btn-success btn-lg" ng-click="confirm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
+	<button type="button" class="btn btn-danger btn-lg" ng-click="clearForm(true);" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Clear');" ng-show="type">
 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear
 	</button>
-	<button type="button" class="btn btn-danger" ng-click="resetForm();" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Reset');" ng-show="type">
+	<button type="button" class="btn btn-danger btn-lg" ng-click="resetForm();" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Reset');" ng-show="type">
 		<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
 	</button>	
 </form>

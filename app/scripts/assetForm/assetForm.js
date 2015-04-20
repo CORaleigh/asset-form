@@ -214,6 +214,12 @@ angular
             } else {
               f.domain = null;
             }
+
+            if (type.templates[0].prototype.attributes[f.name]) {
+              if (type.templates[0].prototype.attributes[f.name] != " ") {
+                f.value = type.templates[0].prototype.attributes[f.name];
+              }
+            }
           });
           $scope.fields = $scope.tableData.fields;
           //$scope.clearForm(false, true);

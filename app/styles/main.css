@@ -1,3 +1,23 @@
+form>button {
+  margin: 20px 20px 20px 0px;
+}
+
+form {
+  font-size: 16pt;
+}
+
+form label {
+  margin-top: 20px;
+}
+
+
+
+
+
+.container {
+  padding: 0 40px 0 40px;
+}
+
 .alert {
   margin-top: 1em;
 }
@@ -71,27 +91,34 @@ select {
   z-index: 10000;
 }
 
+@media (max-width: 1200px) {
+  .tag-input {
+    width: 84%;
+  }
+}
+
 @media (max-width: 1000px) {
   .tag-input {
-    width: 90%;
+    width: 80%;
   }
 }
 @media (max-width: 700px) {
   .tag-input {
-    width: 83%;
+    width: 74%;
   }
 }
 @media (max-width: 500px) {
   .tag-input {
-    width: 80%;
+    width: 70%;
+  }
 }
 @media (max-width: 400px) {
   .tag-input {
-    width: 74%;
+    width: 64%;
 }
 }
 @media (max-width: 300px) {
   .tag-input {
-    width: 70%;
+    width: 60%;
 }
 }
