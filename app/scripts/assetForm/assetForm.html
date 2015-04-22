@@ -37,7 +37,7 @@
 				</button>
 			</div>
 			<!--free form input-->
-			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION' && f.name!= 'ASSET_TAG'" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control input-lg" ng-class="{uppercase: uppercaseFields.indexOf(f.name) > -1}" autocomplete="off"></input>
+			<input name="field" ng-if="!f.domain && f.type != 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION' && f.name!= 'ASSET_TAG'" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" class="form-control input-lg uppercase" autocomplete="off"></input>
 	        <!--help blocks used for validation-->
 	        <!--max length message-->
 	        <span id="helpBlock" class="help-block" ng-if="fieldForm.field.$error.maxlength">Only accepts {{f.length}} characters</span>

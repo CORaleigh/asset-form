@@ -146,7 +146,7 @@ angular
                   f.value = attributes[f.name];
                   if (f.type === 'esriFieldTypeDate' && f.value) {
                     f.value = moment(f.value).zone(-5).format('MM/DD/YYYY');
-                  } else if ($scope.uppercaseFields.indexOf(f.name) > -1 && f.value) {
+                  } else if (!f.domain && f.value) {
                     f.value = f.value.toUpperCase();
                   }                  
                 break;
@@ -328,9 +328,9 @@ angular
                     if (f.value === '') {
                       feature.attributes[f.name] = null;
                     }
-                    if ($scope.uppercaseFields.indexOf(f.name) > -1 && f.value) {
+                    if (!f.domain) {
                       feature.attributes[f.name] = f.value.toUpperCase();
-                    }                      
+                    }
                   } else {
                       feature.attributes[f.name] = null;
                   }
@@ -347,7 +347,6 @@ angular
       link: function (scope, element, attrs, loginFormCtrl) {
         scope.hiddenFields = attrs.hiddenFields.split(',');
         scope.persistedFields = attrs.persistedFields.split(',');
-        scope.uppercaseFields = attrs.uppercaseFields.split(',');
         scope.confirmation = $('#confirmModal', element[0]);
       }
     }
