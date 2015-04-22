@@ -23,7 +23,7 @@
 			<!--domains-->
 			<select name="field" ng-if="f.domain" ng-model="f.value" ng-options="cv.code as cv.name for cv in f.domain.codedValues" class="form-control input-lg" ng-required="{{!f.nullable}}">
 				<option value="">Select a value...</option>
-			</select>			
+			</select>
 			<!--date input-->
 			<div class="input-group date" ng-if="f.type == 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION'" ng-init="dateInit()">
 				<input name="field" class="form-control input-lg" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span></input>
@@ -48,12 +48,12 @@
 			</ng-form>
 	</div>
 	<button type="button" class="btn btn-success btn-lg pull-left" ng-click="confirm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
-	<button type="button" class="btn btn-danger btn-lg pull-right" ng-click="clearForm(true);" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Clear');" ng-show="type">
-		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear
-	</button>
 	<button type="button" class="btn btn-danger btn-lg pull-right" ng-click="resetForm();" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Reset');" ng-show="type">
 		<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
-	</button>	
+	</button>
+	<button type="button" class="btn btn-danger btn-lg pull-right" ng-click="clearForm(false);" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Clear');" ng-show="type">
+		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear
+	</button>
 </form>
       <div id="confirmModal" class="modal" data-keyboard="false">
         <div class="modal-dialog modal-sm">

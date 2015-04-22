@@ -146,7 +146,7 @@ angular
                   f.value = attributes[f.name];
                   if (f.type === 'esriFieldTypeDate' && f.value) {
                     f.value = moment(f.value).zone(-5).format('MM/DD/YYYY');
-                  } else if (!f.domain && f.value) {
+                  } else if (!f.domain && typeof f.value === 'string') {
                     f.value = f.value.toUpperCase();
                   }                  
                 break;
@@ -328,7 +328,7 @@ angular
                     if (f.value === '') {
                       feature.attributes[f.name] = null;
                     }
-                    if (!f.domain) {
+                    if (!f.domain && typeof f.value === 'string') {
                       feature.attributes[f.name] = f.value.toUpperCase();
                     }
                   } else {
