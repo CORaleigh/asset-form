@@ -75,7 +75,8 @@ angular
                   $scope.showMessage('danger', 'Could not complete request, check internet connectivity!');
                 }                
                 $scope.tableData = data;
-                $scope.fields = [];
+                //$scope.fields = [];
+                $scope.fields = data.fields;
                 $scope.prefix = data.description;
                 $scope.types = data.types;
               }
@@ -201,6 +202,8 @@ angular
         $scope.tableSelected = function (id) {
           $scope.alert = null;
           $scope.oid = null;
+          $scope.type = null;
+          $scope.fields = [];
           ga('send', 'event', 'Table', 'Table Selected', $scope.table.name);
           getTypes($scope.token, id);
         };
