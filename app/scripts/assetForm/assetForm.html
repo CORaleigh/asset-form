@@ -51,7 +51,7 @@
 	<button type="button" class="btn btn-danger btn-lg pull-right" ng-click="resetForm();" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Reset');" ng-show="type">
 		<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
 	</button>
-	<button type="button" class="btn btn-danger btn-lg pull-right" ng-click="clearForm(false);" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Clear');" ng-show="type">
+	<button type="button" class="btn btn-danger btn-lg pull-right" ng-click="clearForm(false);alert = null;" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Clear');" ng-show="type">
 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear
 	</button>
 </form>

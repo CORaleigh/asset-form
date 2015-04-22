@@ -266,6 +266,7 @@ angular
         };
         $scope.clearForm = function (all, keepTag) {
           $scope.oid = null;
+          $window.scrollTo(0,0);
           angular.forEach($scope.fields, function (f) {
             if (all) {
               if (f.defaultValue) {
