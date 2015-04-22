@@ -12,11 +12,12 @@ form label {
 
 
 .container {
-  padding: 0 40px 0 40px;
+  padding-right: 40px;
 }
 
 .alert {
   margin-top: 1em;
+  font-size: 16pt;
 }
 
 select {
