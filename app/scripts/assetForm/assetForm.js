@@ -208,6 +208,7 @@ angular
           $scope.alert = null;
           $scope.oid = null;
           $scope.type = null;
+          $scope.types = null;
           $scope.fields = [];
           ga('send', 'event', 'Table', 'Table Selected', $scope.table.name);
           getTypes($scope.token, id);
