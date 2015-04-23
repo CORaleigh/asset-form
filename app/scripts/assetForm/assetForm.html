@@ -8,6 +8,7 @@
 	</select>
 </div>
 <div class="alert" ng-show="alert" ng-class="{'alert-warning': alert.type == 'warning', 'alert-success': alert.type == 'success', 'alert-danger': alert.type == 'danger'}">
+<span class="glyphicon" ng-class="{'glyphicon-exclamation-sign': alert.type == 'warning', 'glyphicon-ok': alert.type == 'success', 'glyphicon-remove-circle': alert.type == 'danger'}"></span>
 {{alert.message}}
 </div>
 <form name="assetForm" role="form" onsubmit="return false;" ng-show="fields.length > 0">

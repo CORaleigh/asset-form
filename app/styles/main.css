@@ -10,6 +10,23 @@ form label {
   margin-top: 20px;
 }
 
+.alert-warning {
+  color: #fff;
+  background-color: #db7a18;
+  border-color: #db7a18;
+}
+
+.alert-danger {
+  color: #fff;
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+.alert-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+}
 
 .container {
   padding-right: 40px;
