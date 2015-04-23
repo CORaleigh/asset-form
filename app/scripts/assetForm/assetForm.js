@@ -199,6 +199,11 @@ angular
             });
           }
         });
+        $scope.$watch('type', function (type) {
+          if (type) {
+            $scope.typeSelected(type);
+          }
+        });
         $scope.tableSelected = function (id) {
           $scope.alert = null;
           $scope.oid = null;
@@ -280,7 +285,11 @@ angular
                 if (keepTag && f.name === 'ASSET_TAG') {
                   f.value = f.value;
                 } else {
-                  f.value = null;
+                  if (f.defaultValue) {
+                    f.value = f.defaultValue;
+                  } else {
+                    f.value = null;
+                  }
                 }
               } 
             }
