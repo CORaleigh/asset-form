@@ -6,6 +6,10 @@ form {
   font-size: 16pt;
 }
 
+.modal {
+  font-size: 16pt;
+}
+
 form label {
   margin-top: 20px;
 }
@@ -27,6 +31,13 @@ form label {
   background-color: #5cb85c;
   border-color: #5cb85c;
 }
+
+.alert-info {
+  color: #fff;
+  background-color: #0097E2;
+  border-color: #0097E2;
+}
+
 
 .container {
   padding-right: 40px;

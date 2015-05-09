@@ -99,13 +99,15 @@ angular
               } else if (data.features.length > 0) {
                 $scope.oid = data.features[0].attributes.OBJECTID;
                 setFieldValues(data.features[0].attributes);
-                showMessage("warning", 'An asset with a type of ' + $scope.type.name + " and a tag of " + $scope.prefix + " - " + getTag() + " has already been created. Any changes will update the existing asset.")
+                showMessage("warning", 'An asset with a a tag of ' + $scope.prefix + " - " + getTag() + " has already been entered. Any changes will update the existing asset.")
               } else {
                 if (data === "") {
                   $scope.showMessage('danger', 'Could not complete request, check internet connectivity!');
                 }                   
                 //$scope.clearForm(false, true);
-                $scope.alert = null;
+                showMessage("info", 'An asset with a a tag of ' + $scope.prefix + " - " + getTag() + " has not been entered. Fill out the and click the submit button to enter asset.")
+
+                //$scope.alert = null;
               }
 
             }, function (status, data) {
@@ -263,11 +265,18 @@ angular
         $scope.dateInit = function (e) {
           $('.date').datepicker({clearBtn: true, endDate: '+0d', startDate: '-100y'});
         };
-        $scope.inputBlur = function (field) {
+        $scope.inputBlur = function (field, e) {
           if (field.name == 'ASSET_TAG') {
+            $scope.tagFocused = false;
             $scope.facilityid = field.value;
             $scope.oid = null;
             checkAssetExists($scope.token, field, $scope.table.id);
+          }
+        };
+
+        $scope.inputFocus = function (field, e) {
+          if (field.name == 'ASSET_TAG') {
+            $scope.tagFocused = true;
           }
         };
         $scope.clearForm = function (all, keepTag) {

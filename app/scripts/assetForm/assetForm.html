@@ -7,8 +7,8 @@
 		<option value="">Select an asset type...</option>
 	</select>
 </div>
-<div class="alert" ng-show="alert" ng-class="{'alert-warning': alert.type == 'warning', 'alert-success': alert.type == 'success', 'alert-danger': alert.type == 'danger'}">
-<span class="glyphicon" ng-class="{'glyphicon-exclamation-sign': alert.type == 'warning', 'glyphicon-ok': alert.type == 'success', 'glyphicon-remove-circle': alert.type == 'danger'}"></span>
+<div class="alert" ng-show="alert" ng-class="{'alert-warning': alert.type == 'warning', 'alert-success': alert.type == 'success', 'alert-danger': alert.type == 'danger', 'alert-info': alert.type == 'info'}">
+<span class="glyphicon" ng-class="{'glyphicon-exclamation-sign': alert.type == 'warning', 'glyphicon-ok': alert.type == 'success', 'glyphicon-remove-circle': alert.type == 'danger', 'glyphicon-info-sign': alert.type == 'info'}"></span>
 {{alert.message}}
 </div>
 <form name="assetForm" role="form" onsubmit="return false;" ng-show="fields.length > 0">
@@ -32,7 +32,7 @@
 			<!--asset tag-->
 			<div ng-if="f.name === 'ASSET_TAG'">
 				<div class="pull-left tag-prefix">{{prefix}} - </div>
-				<input name="field" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" ng-blur="inputBlur(f)" class="form-control tag-input input-lg" ng-pattern="/^\d+$/" autocomplete="off"></input>
+				<input name="field" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}" ng-blur="inputBlur(f, $event)" ng-focus="inputFocus(f)" class="form-control tag-input input-lg" ng-pattern="/^\d+$/" autocomplete="off"></input>
 				<button type="button" class="btn btn-default btn-lg searchButton">
 				  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>
@@ -48,7 +48,7 @@
 	        <span id="helpBlock" class="help-block" ng-if="fieldForm.field.$error.pattern">Only accepts integers</span>
 			</ng-form>
 	</div>
-	<button type="button" class="btn btn-success btn-lg pull-left" ng-click="confirm()" ng-show="type" ng-disabled="assetForm.$invalid || processing">{{((oid) ? 'Update' : 'Submit')}}</button>
+	<button type="button" class="btn btn-success btn-lg pull-left" ng-click="confirm()" ng-show="type" ng-disabled="assetForm.$invalid || processing || tagFocused">{{((oid) ? 'Update' : 'Submit')}}</button>
 	<button type="button" class="btn btn-danger btn-lg pull-right" ng-click="resetForm();" onClick="ga('send', 'event', 'Buttons', 'Button Clicked', 'Reset');" ng-show="type">
 		<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset
 	</button>
@@ -56,24 +56,24 @@
 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear
 	</button>
 </form>
-      <div id="confirmModal" class="modal" data-keyboard="false">
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-body">
-              <center>
-              <span></span>
-              <div>
-              	<strong>{{((oid) ? 'Update ' : 'Add ')}}</strong>{{((oid) ? 'an existing asset with a type of ' : 'a new asset with a type of ')}}<strong>{{type.name}}</strong> and an asset tag of <strong>{{prefix}} - {{facilityid}}</strong> to the <strong>{{table.name}}</strong> trade table?
-              	<p/>
-                <button class="btn btn-success" ng-click="submitForm();hideConfirmation();">
-                	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Yes
-                </button>
-                <button class="btn btn-danger" ng-click="hideConfirmation()">
-                	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> No
-                </button>
-              </div>
-            </center>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
+<div id="confirmModal" class="modal" data-keyboard="false">
+<div class="modal-dialog modal-sm">
+  <div class="modal-content">
+    <div class="modal-body">
+      <center>
+      <span></span>
+      <div>
+      	<strong>{{((oid) ? 'Update ' : 'Add ')}}</strong>{{((oid) ? 'an existing asset with ' : 'a new asset with ')}} an asset tag of <strong>{{prefix}} - {{facilityid}}</strong> {{((oid) ? 'in' : 'to')}} the <strong>{{table.name}}</strong> trade table?
+      	<p/>
+        <button class="btn btn-lg btn-success" ng-click="submitForm();hideConfirmation();">
+        	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Yes
+        </button>
+        <button class="btn btn-lg btn-danger" ng-click="hideConfirmation()">
+        	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> No
+        </button>
+      </div>
+    </center>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
