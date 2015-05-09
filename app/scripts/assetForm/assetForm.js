@@ -105,7 +105,7 @@ angular
                   $scope.showMessage('danger', 'Could not complete request, check internet connectivity!');
                 }                   
                 //$scope.clearForm(false, true);
-                showMessage("info", 'An asset with a a tag of ' + $scope.prefix + " - " + getTag() + " has not been entered. Fill out the and click the submit button to enter asset.")
+                showMessage("info", 'An asset with a a tag of ' + $scope.prefix + " - " + getTag() + " has not been entered. Fill out the form and click submit to enter asset.")
 
                 //$scope.alert = null;
               }
