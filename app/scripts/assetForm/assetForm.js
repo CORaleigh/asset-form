@@ -6,6 +6,7 @@ angular
       restrict: 'E',
       templateUrl: 'scripts/assetForm/assetForm.html',
       controller: function ($scope, $timeout, $window, login) {
+        $scope.exists = false;
         $scope.toggleGrayout = function (show) {
 /*          $('#fakeModal').modal(((show) ? 'show' : 'hide'));
           console.log(((show) ? 'show' : 'hide'));*/
@@ -100,13 +101,17 @@ angular
                 $scope.oid = data.features[0].attributes.OBJECTID;
                 setFieldValues(data.features[0].attributes);
                 showMessage("warning", 'An asset with a tag of ' + $scope.prefix + " - " + getTag() + " has already been entered. Any changes will update the existing asset.")
+                $scope.exists = true;
               } else {
                 if (data === "") {
                   $scope.showMessage('danger', 'Could not complete request, check internet connectivity!');
                 }                   
-                //$scope.clearForm(false, true);
+                if ($scope.exists) {
+                  $scope.clearForm(false, true);
+                }
+                
                 showMessage("info", 'An asset with a tag of ' + $scope.prefix + " - " + getTag() + " has not been entered. Fill out the form and click submit to enter asset.")
-
+                $scope.exists = false;
                 //$scope.alert = null;
               }
 
@@ -181,7 +186,8 @@ angular
                 if (success) {
                   showMessage("success", "An asset with a type of " + $scope.type.name + " and a tag of " + $scope.prefix + " - " + getTag() + " successfully " + ((data.updateResults) ? 'updated': 'created') + ".");
                   $scope.oid = null;
-                  $scope.clearForm(false, false);               
+                  $scope.clearForm(false, false); 
+                  $scope.exists = false;             
                 } else {
                   showMessage("danger", "Error submitting assets, please check internet connectivity and try again");
                 }
