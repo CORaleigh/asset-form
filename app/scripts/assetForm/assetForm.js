@@ -99,13 +99,13 @@ angular
               } else if (data.features.length > 0) {
                 $scope.oid = data.features[0].attributes.OBJECTID;
                 setFieldValues(data.features[0].attributes);
-                showMessage("warning", 'An asset with a a tag of ' + $scope.prefix + " - " + getTag() + " has already been entered. Any changes will update the existing asset.")
+                showMessage("warning", 'An asset with a tag of ' + $scope.prefix + " - " + getTag() + " has already been entered. Any changes will update the existing asset.")
               } else {
                 if (data === "") {
                   $scope.showMessage('danger', 'Could not complete request, check internet connectivity!');
                 }                   
                 //$scope.clearForm(false, true);
-                showMessage("info", 'An asset with a a tag of ' + $scope.prefix + " - " + getTag() + " has not been entered. Fill out the form and click submit to enter asset.")
+                showMessage("info", 'An asset with a tag of ' + $scope.prefix + " - " + getTag() + " has not been entered. Fill out the form and click submit to enter asset.")
 
                 //$scope.alert = null;
               }
