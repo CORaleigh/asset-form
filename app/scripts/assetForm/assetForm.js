@@ -89,7 +89,6 @@ angular
             $scope.toggleGrayout(true);
             assets.checkAssetExists(token, field.value, id).then(function (data) {
               $scope.toggleGrayout(false);
-              console.log(data);
               if (data.error) {
                 if (data.error.code === 498) {
                   login.login($scope.user, $scope.password).then(function (data) {
@@ -153,7 +152,7 @@ angular
                 default:
                   f.value = attributes[f.name];
                   if (f.type === 'esriFieldTypeDate' && f.value) {
-                    f.value = moment(f.value).zone(-5).format('MM/DD/YYYY');
+                    f.value = moment(f.value).utcOffset(-5).format('MM/DD/YYYY');
                   } else if (!f.domain && typeof f.value === 'string') {
                     f.value = f.value.toUpperCase();
                   }                  
@@ -168,7 +167,6 @@ angular
           assets.submitAsset(token, feature, id, oid).then(function (data) {
             $scope.processing = false;
             $scope.toggleGrayout(false);
-            console.log(data);
             var success = false;
               if (data.error) {
                 if (data.error.code === 498) {
@@ -388,7 +386,7 @@ angular
   }])
    .factory('assets', ['$http', '$q', function($http, $q){
     var service = {getTables:getTables, getTypes:getTypes, getSites:getSites, checkAssetExists:checkAssetExists, submitAsset:submitAsset},
-      baseUrl = 'http://mapstest.raleighnc.gov/arcgis/rest/services/Parks/AssetForm/FeatureServer';
+      baseUrl = 'https://maps.raleighnc.gov/arcgis/rest/services/Parks/AssetForm/FeatureServer';
     return service;
     function getTables(token){
       var deferred = $q.defer();

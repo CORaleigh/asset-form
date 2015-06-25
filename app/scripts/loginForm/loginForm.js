@@ -33,7 +33,7 @@ angular
       var deferred = $q.defer()
       $http({
         method: 'POST',
-        url: 'http://mapstest.raleighnc.gov/arcgis/tokens/',
+        url: 'https://maps.raleighnc.gov/arcgis/tokens/',
         data: $.param(
           {
             request: 'getToken',
