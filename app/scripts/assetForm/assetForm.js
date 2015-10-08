@@ -53,7 +53,7 @@ angular
                   });
                   if (site.length > 0) {
                     site = site[0];
-                    site.buildings.push({name: f.attributes.LOCATION, id: parseInt(f.attributes.FACILITYID), address: f.attributes.LEGACYID});
+                    site.buildings.push({name: f.attributes.LOCATION, id: parseInt(f.attributes.FACILITYID), address: f.attributes.LEGACYID, assetType: f.attributes.ASSET_TYPE, assetId: f.attributes.ASSET_TYPE_FACILITYID});
                   }
                 }
               });
@@ -89,6 +89,7 @@ angular
             $scope.toggleGrayout(true);
             assets.checkAssetExists(token, field.value, id).then(function (data) {
               $scope.toggleGrayout(false);
+              console.log(data);
               if (data.error) {
                 if (data.error.code === 498) {
                   login.login($scope.user, $scope.password).then(function (data) {
@@ -152,7 +153,7 @@ angular
                 default:
                   f.value = attributes[f.name];
                   if (f.type === 'esriFieldTypeDate' && f.value) {
-                    f.value = moment(f.value).utcOffset(-5).format('MM/DD/YYYY');
+                    f.value = moment(f.value).zone(-5).format('MM/DD/YYYY');
                   } else if (!f.domain && typeof f.value === 'string') {
                     f.value = f.value.toUpperCase();
                   }                  
@@ -167,6 +168,7 @@ angular
           assets.submitAsset(token, feature, id, oid).then(function (data) {
             $scope.processing = false;
             $scope.toggleGrayout(false);
+            console.log(data);
             var success = false;
               if (data.error) {
                 if (data.error.code === 498) {
@@ -349,6 +351,15 @@ angular
                 case 'FACILITYID':
                   feature.attributes[f.name] = $scope.facilityid;
                 break;
+                case 'LOCATION_TYPE':
+                  feature.attributes[f.name] = $scope.building.assetType;
+                break;
+                case 'FO_ASSET_ID':                  
+                  feature.attributes[f.name] = $scope.building.id;
+                break;
+                case 'FO_ASSETID':                  
+                  feature.attributes[f.name] = $scope.building.id;
+                break;                
                 default:
                   if (f.value) {
                     feature.attributes[f.name] = f.value;
@@ -386,7 +397,7 @@ angular
   }])
    .factory('assets', ['$http', '$q', function($http, $q){
     var service = {getTables:getTables, getTypes:getTypes, getSites:getSites, checkAssetExists:checkAssetExists, submitAsset:submitAsset},
-      baseUrl = 'https://maps.raleighnc.gov/arcgis/rest/services/Parks/AssetForm/FeatureServer';
+      baseUrl = 'http://mapstest.raleighnc.gov/arcgis/rest/services/Parks/AssetForm/FeatureServer';
     return service;
     function getTables(token){
       var deferred = $q.defer();
