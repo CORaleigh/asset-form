@@ -33,13 +33,14 @@ angular
       var deferred = $q.defer()
       $http({
         method: 'POST',
-        url: 'http://mapstest.raleighnc.gov/arcgis/tokens/',
+        url: 'https://maps.raleighnc.gov/portal/sharing/generateToken',
         data: $.param(
           {
             request: 'getToken',
             username: user,
             password: password,
             expiration: 60,
+            referer: document.baseURI,
             f: 'json'
           }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}

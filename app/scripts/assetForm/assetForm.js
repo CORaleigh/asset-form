@@ -152,7 +152,9 @@ angular
                 break;
                 default:
                   f.value = attributes[f.name];
+                  
                   if (f.type === 'esriFieldTypeDate' && f.value) {
+                    
                     f.value = moment(f.value).zone(-5).format('MM/DD/YYYY');
                   } else if (!f.domain && typeof f.value === 'string') {
                     f.value = f.value.toUpperCase();
@@ -367,7 +369,13 @@ angular
                       feature.attributes[f.name] = null;
                     }
                     if (!f.domain && typeof f.value === 'string') {
+                    
                       feature.attributes[f.name] = f.value.toUpperCase();
+                      if (f.type === "esriFieldTypeDate") {
+                        var m = moment(f.value);
+                        f.value = m.unix()*1000;
+                        feature.attributes[f.name] = f.value;
+                      }
                     }
                   } else {
                       feature.attributes[f.name] = null;
@@ -397,7 +405,7 @@ angular
   }])
    .factory('assets', ['$http', '$q', function($http, $q){
     var service = {getTables:getTables, getTypes:getTypes, getSites:getSites, checkAssetExists:checkAssetExists, submitAsset:submitAsset},
-      baseUrl = 'http://mapstest.raleighnc.gov/arcgis/rest/services/Parks/AssetForm/FeatureServer';
+      baseUrl = 'https://maps.raleighnc.gov/arcgis/rest/services/Parks/AssetForm/FeatureServer';
     return service;
     function getTables(token){
       var deferred = $q.defer();
