@@ -27,7 +27,7 @@
 			</select>
 			<!--date input-->
 			<div class="input-group date" ng-if="f.type == 'esriFieldTypeDate' && f.name != 'SITE' && f.name != 'LOCATION' && type != null" ng-init="dateInit()">
-				<input name="field" class="form-control input-lg" ng-model="f.value" ng-maxlength="{{f.length}}" ng-required="{{!f.nullable}}"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span></input>
+				<input name="field" class="form-control input-lg" ng-model="f.value" ng-maxlength="10" ng-required="{{!f.nullable}}"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span></input>
 			</div>
 			<!--asset tag-->
 			<div ng-if="f.name === 'ASSET_TAG'">
