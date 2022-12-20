@@ -445,7 +445,7 @@ angular
         data: $.param(
           {
             token: token,
-            where: "EXISTING = 'Yes' and LOCATION IS NOT NULL",
+            where: "EXISTING = 'Yes' and LOCATION IS NOT NULL and ASSET_TYPE_FACILITYID IS NOT NULL",
             returnGeometry: false,
             outFields: '*',
             orderByFields: 'SITE, LOCATION',
